@@ -1,19 +1,29 @@
 #1 Создаем базу данных и пользователя:
+# Нужен пакет postgres-all
 $ sudo su postgres
 $ psql
 
 CREATE USER izmiran NOCREATEDB NOCREATEROLE PASSWORD 'izmiran';
 CREATE DATABASE izmiran OWNER = izmiran;
 
+#1.1 добавляем в .pgpass данные для беспарольного входа
+cat 'localhost:5432:izmiran:izmiran:izmiran' > ~/.pgpass
+
 #2 Заливаем приложение и таблицы в базу данных
-psql -h localhost -d izmiran -U izmiran -p 5432 < kindex/data_tables.sql
+psql -h localhost -d izmiran -U izmiran -p 5432 < kindex/sql/data_tables.sql
+psql -h localhost -d izmiran -U izmiran -p 5432 < kindex/sql/patch_01.sql
+psql -h localhost -d izmiran -U izmiran -p 5432 < kindex/sql/patch_02.sql
 
 #3 Подготавливаем стартовые данные:
 
-#3.1 узнаем за какую дату нам нужны данные
+#3.1 узнаем за какую дату нам нужны данные now() - можно заменить на тот день, от которого начнется расчет алгоритма.
 psql: select now()::date-interval '27 days' as from, now() as to;
 
+#либо:
+#select '2019-09-01'::date-interval '27 days' as from, '2019-09-01'::timestamp as to;
+
 #3.2 заливаем стартовые данные во временную таблицу:
+# нужен пакет libwww-perl
 ./load_start_data.sh  2019-07-05T00:00:00 2019-08-01T00:00:00
 
 #3.4 Добавляем 5 дней из выбранного периода как самые магнитонеактивные:
@@ -31,10 +41,32 @@ insert into sr_variations (select st.date_utc::time, (sum(st.h)/count(st.h))::nu
 DROP TABLE temp_start_table;
 DROP function calculate_h();
 
-#4 Теперь можно периодически загружать данные и отрисовывать графики: 
-# m h  dom mon dow   command
-*/30 * * * * cd $HOME/izmiran/kindex/ && ./load_data_to_db.sh `./show_update_period.sh` > load_data.log
-05 * * * * cd $HOME/izmiran/gnuplot/ && ./plotboxes.gnu 
-06 * * * * cd $HOME/izmiran/gnuplot/ && ./plotXYZ.gnu
-00 06 * * * cd $HOME/izmiran/gnuplot/ && ./H_calmer_days.gnu
+# 3.7 Для расчета к индексов необходимо начальное значение:
+INSERT into k_idx (select date_trunc('day','2019-06-01'::timestamp) + interval '3 hour', 0);
 
+#4 Теперь можно периодически загружать данные и отрисовывать графики: 
+
+Cron:
+# m h  dom mon dow   command
+
+# Каждые полчаса пытаемся затянуть свежие данные
+*/30 * * * * cd $HOME/izmiran/kindex/ && ./load_data_to_db.sh `./show_update_period.sh` > load_data.log
+
+# каждые полчаса рисуем обобщенный график за 24 часа
+*/30 * * * * cd $HOME/izmiran/gnuplot/ && ./common_plots_24h_ago.gnu
+
+# каждые 5 мин рисуем к индекс реального времени в течении 1 дня
+05 * * * * cd $HOME/izmiran/gnuplot/ && ./plotboxes.gnu 
+
+# Каждые 3 часа перерисовываем k-index за последние 24 часа 
+0 */3 * * * cd $HOME/izmiran/gnuplot/ && ./plotboxes2.gnu
+
+# каждые 6 мин рисуем XYZ текущего дня
+06 * * * * cd $HOME/izmiran/gnuplot/ && ./plotXYZ.gnu
+
+# каждые 10 мин перерисовываем текущее значение горизонтальной компоненты.
+10 * * * * cd $HOME/izmiran/gnuplot/ && ./H_calmer_days.gnu
+
+Второй вариант развернуть все из дампа базы и настроить Cron скрипты.
+# 1 Настройка базы и пользователя.
+# 2 Настройка скриптов
