@@ -1,0 +1,40 @@
+#1 Создаем базу данных и пользователя:
+$ sudo su postgres
+$ psql
+
+CREATE USER izmiran NOCREATEDB NOCREATEROLE PASSWORD 'izmiran';
+CREATE DATABASE izmiran OWNER = izmiran;
+
+#2 Заливаем приложение и таблицы в базу данных
+psql -h localhost -d izmiran -U izmiran -p 5432 < kindex/data_tables.sql
+
+#3 Подготавливаем стартовые данные:
+
+#3.1 узнаем за какую дату нам нужны данные
+psql: select now()::date-interval '27 days' as from, now() as to;
+
+#3.2 заливаем стартовые данные во временную таблицу:
+./load_start_data.sh  2019-07-05T00:00:00 2019-08-01T00:00:00
+
+#3.4 Добавляем 5 дней из выбранного периода как самые магнитонеактивные:
+# Нужно брать чужие расчеты за прошлый месяц и искать ручками 5 дней.
+insert into variations_by_day (date_utc) values ('2019-07-26');
+insert into variations_by_day (date_utc) values ('2019-07-20');
+insert into variations_by_day (date_utc) values ('2019-07-06');
+insert into variations_by_day (date_utc) values ('2019-07-25');
+insert into variations_by_day (date_utc) values ('2019-07-18');
+
+#3,6 Генерируем солнечные дневные вариации на основании пяти магнитоспокойных дней:
+insert into sr_variations (select st.date_utc::time, (sum(st.h)/count(st.h))::numeric(10,4) as sr from temp_start_table as st, variations_by_day as id where id.date_utc >= ('2019-08-01'::timestamp - interval '27 days')::date and id.date_utc = st.date_utc::date group by st.date_utc::time order by st.date_utc::time);
+
+#3.7 Удаляем времменную таблицу, больше она нам не нужна:
+DROP TABLE temp_start_table;
+DROP function calculate_h();
+
+#4 Теперь можно периодически загружать данные и отрисовывать графики: 
+# m h  dom mon dow   command
+*/30 * * * * cd $HOME/izmiran/kindex/ && ./load_data_to_db.sh `./show_update_period.sh` > load_data.log
+05 * * * * cd $HOME/izmiran/gnuplot/ && ./plotboxes.gnu 
+06 * * * * cd $HOME/izmiran/gnuplot/ && ./plotXYZ.gnu
+00 06 * * * cd $HOME/izmiran/gnuplot/ && ./H_calmer_days.gnu
+

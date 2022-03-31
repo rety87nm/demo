@@ -1,0 +1,18 @@
+{
+	name=>'hosting.antilord.org',
+	# корневой куть к приложению
+	# времменное хранение архивов залитого контента
+	arhive_dir=>'/usr/share/hosting/stuff/',
+	# путь размещения клиентсских сайтов
+	sites_dir=>'/usr/share/hosting/sites/',
+	# путь размещения персональных конфигов для клиентов
+	nginx_include_path=>'/usr/share/hosting/nginx_cfg/',
+	# наименование бекэнда, принято, что будет именоваться так же как и хост
+	server_label=>'moon',
+	# путь до директорий инклудов с уонфигурацией dns
+	bind_include_path=>'/usr/share/hosting/bind_cfg/',
+	# Максимальный размер данных для загрузки на сервер в байтах  512 KB
+	memory_size=>15*1024*1024,
+	# лимит на разммер загружаемого файла:
+	load_file_limit_sz=>1*1024*512
+}

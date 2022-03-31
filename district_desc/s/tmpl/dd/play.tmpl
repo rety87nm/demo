@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/s/i/favicon.ico">
+
+    <title>Микрорайон "Лесной". Г.Железнодорожный.</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/cover.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="/assets/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="site-wrapper" style="padding-bottom:90px;">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+		  <div style="height:64px;"> 
+		  	<div class="masthead clearfix">
+            	<div class="inner">
+              		<h3 class="masthead-brand"> [% IF highlight_ids.size() > 0 %] <a href="?id=[%  highlight_ids.keys().first() %]&norem=1" title="Перейти к новой записи"><sup>[%  highlight_ids.size() %]*</sup></a>[% ELSE %]<a title="домой" href="/"><div class="logo_house"><img src="house.png"></div></a> [% END %] [% IF alert %] <span class="label label-warning" style="font-size:14px;" >[% alert %]</span> [% END %]</h3>
+              		<ul class="nav masthead-nav">
+                		<li class="active"><a href="/">Просмотр</a></li>
+                		<li><a href="/?c=edit#form_[% data.id_text %]">Редактирование</a></li>
+              		</ul>
+            	</div>
+          	</div>
+		  </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading">[% data.tag %]</h1>
+            <div class="lead">[% data.description %]</div>
+
+			[% IF breadcrumbs.size() >= 1 %]
+            <p class="lead">
+				<ol class="breadcrumb" >
+					[% FOREACH I IN breadcrumbs %]
+					<li [% IF I.id == data.id_text %]class="active"[% END %]  >[% UNLESS I.id == data.id_text %] <a href="?id=[% I.id %]" >[% I.tag %]</a>[% ELSE %][% I.tag %][%END%]</li>
+					[% END %]
+				</ol>
+            </p>
+			[% END %]
+			<!--<a class="btn btn-lg btn-default" href="#">Button</a> -->
+			<p>[% data.date.human_date(what=>'datetime',form=>'short',elegant=>0) %]</p>
+          </div>
+		</div>
+      </div>
+    </div>
+<!--
+	<footer style="margin-top: -90px; height:90px; color: rgba(255,255,255,0.5); ">
+		<div class="inner">
+			<p>Справочник микрорайона. Разработано <a href="http://ani-project.org">ani-project.org</a>, by <a href="https://twitter.com/rety87nm">@rety87nm</a>.</p>
+        </div>
+	<footer>
+-->
+	<div class="mastfoot">
+		<div class="inner">
+			<p>Справочник микрорайона. Разработано <a href="http://ani-project.org">ani-project.org</a>, by <a href="https://twitter.com/rety87nm">@rety87nm</a>.</p>
+    	</div>
+	</div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/jquery.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <script src="/assets/docs.min.js"></script>
+  </body>
+</html>

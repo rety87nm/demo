@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/s/i/favicon.ico">
+
+    <title>Микрорайон "Лесной". Г.Железнодорожный.</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap.css" rel="stylesheet">
+	
+    <!-- Custom styles for this template -->
+    <link href="/cover.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="/assets/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+
+  <body style="text-align:left;box-shadow:none;">
+    <div class="site-wrapper" style="padding-bottom:90px;">
+      <div class="site-wrapper-inner">
+        <div class="cover-container" >
+          <div class="masthead clearfix">
+            <div class="inner">
+              <ul class="nav masthead-nav">
+                <li><a href="/">Просмотр</a></li>
+                <li class="active" ><a href="/?c=edit">Редактирование</a></li>
+              </ul>
+            </div>
+          </div>
+		</div>
+
+		<div class="inner cover">
+        	<h1 class="cover-heading">Изменение описания.</h1>
+
+			[% IF in.del_ok %]  <span class="label label-success" ><b>Удалено</b></span>[% END %]
+			[% FOREACH I IN LIST_ITEMS %]
+			<div style="margin:20px;margin-left:[% (I.level - start_level )*20 %]px;" id="form_[% I.id %]">
+				[% IF error && error.id == I.id OR I.id == in.pid %]
+					<span class="label label-warning" ><b>[% error.text %]</b></span>
+				[% ELSE %]
+					[% IF in.edit_ok == I.id %] <span class="label label-success" ><b>Cохранено</b></span>[% END %]
+					[% IF in.add_ok == I.id %]  <span class="label label-success" ><b>Новый</b></span>[% END %]
+				[% END %]
+				<div class="tag">
+					<b>[% I.tag %]</b>
+				</div>
+				
+				<div class="desc">
+					<form role="form" class="form-inline" action="/?c=edit" method="POST" >
+						<div class="form-group">
+							<input class='form-control' type='text' value='[% I.tag %]' name='tag'>
+							<textarea class="form-control" id="desc_[% I.id %]" type="text" rows="3" cols="100" name="description" >[% I.description %]</textarea>
+							<input type="hidden" name="id" value="[% I.id %]">
+						</div>
+						<div class="form-group">
+							<div class="btn-group">
+								<button class = "btn btn-primary" type="submit" name="update" title="Сохранить" >
+									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+								</button>
+
+								<button onclick="return confirm('Серьёзно хотите удалить?')" class = "btn btn-primary" type="submit" name="delete" title="Удалить описание" >
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								</button>
+
+								<button id= "[% I.id %]" level="[% I.level %]" class = "btn btn-info" type="button" value="+" title="Добавить описание.">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+
+			<div id="new_[% I.id %]"></div>
+			[% END %]
+		</div>
+
+      </div>
+    </div>
+
+	<div class="mastfoot" style="text-align:center;">
+		<div class="inner">
+			<p>Справочник микрорайона. Разработано <a href="http://ani-project.org">ani-project.org</a>, by <a href="https://twitter.com/rety87nm">@rety87nm</a>.</p>
+    	</div>
+	</div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/jquery.js"></script>
+    <script src="/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" src="/tinymce/tinymce.min.js"></script>
+
+	<script language="javascript" type="text/javascript">
+	tinyMCE.init({
+		mode : "textareas",
+		menubar: "false",
+		language: "ru",
+		plugins: ["table link image charmap textcolor preview code textcolor"],
+		width : 640,
+		height: 180,
+		toolbar: "undo redo | image link | table addrow | styleselect fontsizeselect removeformat preview | bullist numlist  | code | forecolor backcolor",
+		setup : function(editor){
+			editor.addButton('addrow', {
+				text: '+Row',
+				icon: false,
+				onclick: function() {
+					editor.execCommand('mceTableInsertRowAfter', false, editor);
+				}
+			});
+		}
+	});
+	</script>
+
+    <script src="/assets/docs.min.js"></script>
+	<script type="text/javascript" src="/jquery.selection.js"></script>
+	<script>
+		$('.btn-info').click(function(){
+				var offs = ((parseInt($(this).attr('level')))-[% start_level %]+1)*20;
+				var sel_text = tinymce.activeEditor.selection.getContent({format:'text'});
+				$('#new_'+ this.id).append(
+					'<div style="margin:20px;margin-left:'+offs+'px;">'+
+						'<div class="tag"><b>'+ sel_text +'</b></div>'+
+						'<div class="desc">'+
+							'<form role="form" class="form-inline" action="/?c=edit" method="POST">'+
+								'<div class="form-group">'+
+									'<input class=\'form-control\''+(sel_text ? 'type=\'hidden\'' : 'type=\'text\'' )+' name=\'tag\' value=\''+ sel_text +'\'>'+
+									'<textarea class="form-control" id="new_desc" type="text" rows="3" cols="100" name="description" ></textarea>'+
+									'<input type="hidden" name="pid" value="'+this.id+'">'+
+								'</div>'+
+								'<div class="form-group">'+
+									'<button class = "btn btn-primary" style="margin-left:6px;" type="submit" title="Добавить">'+
+										'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>'+
+									'</button>'+
+									'<button onclick="tinyMCE.execCommand(\'mceRemoveEditor\',false,\'new_desc\'); $(\'#new_\'+'+this.id+').empty();   return false;" class = "btn btn-primary" type="submit" id="hide_new" title="Скрыть" >'+
+										'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'+
+									'</button>'+
+								'</div>'+
+							'</form>'+
+						'</div>'+
+					'</div>'
+				);
+				tinyMCE.execCommand('mceAddEditor',true,'new_desc');
+		});
+	</script>
+	</body>
+</html>

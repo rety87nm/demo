@@ -1,0 +1,1 @@
+/var/www/district_desc/core/scripts/export_district_desc.sh

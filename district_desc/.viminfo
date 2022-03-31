@@ -1,0 +1,204 @@
+# Этот файл viminfo автоматически создан Vim 7.3.
+# Его можно (осторожно!) редактировать.
+
+# Значение опции 'encoding' в момент записи файла
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~h
+# Last Search Pattern:
+~MSle0~/init
+
+# Командная строка, история (начиная от свежего к старому):
+:q
+:w
+:$
+:1
+:wq
+:W
+:139
+
+# Строка поиска, история (начиная от свежего к старому):
+?/init
+?/footer
+?/foot
+? \<mastfoot\>
+?/min-hei
+? \<fixed\>
+?/min
+?/jquery
+
+# Выражение, история (начиная от свежего к старому):
+
+# Строка ввода, история (начиная от свежего к старому):
+
+# Строка ввода, история (начиная от свежего к старому):
+
+# Регистры:
+"0	CHAR	0
+	fixed
+"1	LINE	0
+	q
+"2	LINE	0
+	    position: absolute;
+"3	LINE	0
+	    position: absolute;
+""-	CHAR	0
+	removeformat
+
+# Глобальные отметки:
+'0  99  148  ~/s/tmpl/dd/edit.html
+'1  161  0  ~/s/css/cover.css
+'2  178  3  ~/district_desc.fcgi
+'3  13  30  ~/s/tmpl/dd/edit.html
+'4  4  26  ~/conf/server.cfg
+'5  1  0  ~/core/scripts/export_district_desc.sh
+'6  2  0  ~/core/scripts/export_district_desc.sh
+'7  46  15  ~/s/tmpl/dd/play.tmpl
+'8  140  14  ~/s/css/cover.css
+'9  141  4  ~/s/css/cover.css
+
+# Список прыжков (сначала более свежие):
+-'  99  148  ~/s/tmpl/dd/edit.html
+-'  6  58  ~/s/tmpl/dd/edit.html
+-'  140  0  ~/s/tmpl/dd/edit.html
+-'  1  0  ~/s/tmpl/dd/edit.html
+-'  161  0  ~/s/css/cover.css
+-'  140  29  ~/s/css/cover.css
+-'  123  5  ~/s/css/cover.css
+-'  164  7  ~/s/css/cover.css
+-'  156  7  ~/s/css/cover.css
+-'  146  7  ~/s/css/cover.css
+-'  29  14  ~/s/css/cover.css
+-'  103  0  ~/s/css/cover.css
+-'  145  2  ~/s/css/cover.css
+-'  25  2  ~/s/css/cover.css
+-'  1  0  ~/s/css/cover.css
+-'  178  3  ~/district_desc.fcgi
+-'  1  0  ~/district_desc.fcgi
+-'  13  30  ~/s/tmpl/dd/edit.html
+-'  29  7  ~/s/tmpl/dd/edit.html
+-'  4  26  ~/conf/server.cfg
+-'  1  0  ~/conf/server.cfg
+-'  1  0  ~/core/scripts/export_district_desc.sh
+-'  2  0  ~/core/scripts/export_district_desc.sh
+-'  46  15  ~/s/tmpl/dd/play.tmpl
+-'  65  4  ~/s/tmpl/dd/play.tmpl
+-'  59  0  ~/s/tmpl/dd/play.tmpl
+-'  1  0  ~/s/tmpl/dd/play.tmpl
+-'  136  19  ~/s/css/cover.css
+-'  101  2  ~/s/css/cover.css
+-'  131  2  ~/s/css/cover.css
+-'  42  13  ~/s/css/cover.css
+-'  135  12  ~/s/css/cover.css
+-'  141  4  ~/s/css/cover.css
+-'  137  4  ~/s/css/cover.css
+-'  134  19  ~/s/css/cover.css
+-'  14  27  ~/s/tmpl/dd/edit.html
+-'  14  27  ~/s/tmpl/dd/play.tmpl
+-'  74  32  ~/s/tmpl/dd/play.tmpl
+-'  69  18  ~/s/tmpl/dd/play.tmpl
+-'  72  18  ~/s/tmpl/dd/play.tmpl
+-'  17  10  ~/s/tmpl/dd/play.tmpl
+-'  46  15  ~/s/tmpl/dd/play.tmpl
+-'  65  4  ~/s/tmpl/dd/play.tmpl
+-'  59  0  ~/s/tmpl/dd/play.tmpl
+-'  1  0  ~/s/tmpl/dd/play.tmpl
+-'  14  27  ~/s/tmpl/dd/play.tmpl
+-'  161  0  ~/s/css/cover.css
+-'  140  29  ~/s/css/cover.css
+-'  123  5  ~/s/css/cover.css
+-'  164  7  ~/s/css/cover.css
+-'  156  7  ~/s/css/cover.css
+-'  146  7  ~/s/css/cover.css
+-'  29  14  ~/s/css/cover.css
+-'  103  0  ~/s/css/cover.css
+-'  145  2  ~/s/css/cover.css
+-'  25  2  ~/s/css/cover.css
+-'  1  0  ~/s/css/cover.css
+-'  178  3  ~/district_desc.fcgi
+-'  1  0  ~/district_desc.fcgi
+-'  4  26  ~/conf/server.cfg
+-'  1  0  ~/conf/server.cfg
+-'  1  0  ~/core/scripts/export_district_desc.sh
+-'  2  0  ~/core/scripts/export_district_desc.sh
+-'  46  15  ~/s/tmpl/dd/play.tmpl
+-'  65  4  ~/s/tmpl/dd/play.tmpl
+-'  59  0  ~/s/tmpl/dd/play.tmpl
+-'  1  0  ~/s/tmpl/dd/play.tmpl
+-'  136  19  ~/s/css/cover.css
+-'  101  2  ~/s/css/cover.css
+-'  131  2  ~/s/css/cover.css
+-'  42  13  ~/s/css/cover.css
+-'  135  12  ~/s/css/cover.css
+-'  141  4  ~/s/css/cover.css
+-'  137  4  ~/s/css/cover.css
+-'  134  19  ~/s/css/cover.css
+-'  14  27  ~/s/tmpl/dd/play.tmpl
+-'  74  32  ~/s/tmpl/dd/play.tmpl
+-'  69  18  ~/s/tmpl/dd/play.tmpl
+-'  72  18  ~/s/tmpl/dd/play.tmpl
+-'  17  10  ~/s/tmpl/dd/play.tmpl
+-'  46  15  ~/s/tmpl/dd/play.tmpl
+-'  65  4  ~/s/tmpl/dd/play.tmpl
+-'  59  0  ~/s/tmpl/dd/play.tmpl
+-'  1  0  ~/s/tmpl/dd/play.tmpl
+-'  14  27  ~/s/tmpl/dd/play.tmpl
+
+# История местных отметок (от более свежих к старым):
+
+> ~/s/tmpl/dd/edit.html
+	"	99	148
+	^	99	147
+	.	99	128
+	+	14	27
+	+	41	0
+	+	29	0
+	+	99	81
+	+	99	0
+	+	99	96
+	+	96	48
+	+	99	79
+	+	96	59
+	+	99	125
+	+	99	21
+	+	99	120
+	+	96	70
+	+	99	128
+
+> ~/s/css/cover.css
+	"	161	0
+	^	98	3
+	.	140	0
+	+	141	25
+	+	137	4
+	+	141	21
+	+	137	0
+	+	141	0
+	+	141	21
+	+	137	0
+	+	136	21
+	+	140	18
+	+	136	18
+	+	101	0
+	+	140	0
+
+> ~/district_desc.fcgi
+	"	178	3
+	^	178	4
+
+> ~/conf/server.cfg
+	"	4	26
+
+> ~/core/scripts/export_district_desc.sh
+	"	1	0
+
+> ~/s/tmpl/dd/play.tmpl
+	"	46	15
+	.	65	0
+	+	73	28
+	+	14	27
+	+	65	5
+	+	59	0
+	+	65	0

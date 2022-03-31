@@ -1,0 +1,53 @@
+# Пользователь:
+$ sudo adduser --shell /bin/sh --home /var/www/district_desc --disabled-password  district_desc
+
+$ sudo mkdir /var/run/district_desc/
+$ sudo chown -R district_desc:district_desc /var/run/district_desc/
+
+# Получение исходного кода:
+$ sudo su -s /bin/bash district_desc
+$ svn --username alexx --password ose7vgt5 --force export http://svn.ani-project.org/district_desc  /var/www/district_desc/ 
+
+# Так как эту команду надо будет выполнять при каждой выкатке - делаем симлинк:
+$ ln -s /var/www/district_desc/core/scripts/export_district_desc.sh /var/www/district_desc/export_district_desc.sh
+
+# симлинк на проект:
+$ exit
+$ sudo ln -s /var/www/district_desc/conf/path_info /etc/district_desc
+
+# база данных:
+$ sudo su postgres
+$ psql 
+
+=# CREATE USER distr_desc NOCREATEDB NOCREATEROLE NOCREATEUSER PASSWORD 'distr_desc';
+=# CREATE DATABASE distr_desc OWNER = distr_desc;
+=#\q
+
+$ exit
+$ psql -h localhost -d distr_desc -U distr_desc -p 5432 < /var/www/district_desc/core/install/sql/01.text_locations.sql
+
+# проверяем загрузку данных заливая базовые описания:
+$  cd /var/www/district_desc/core/scripts/
+$  ./comment_test.pl
+
+# Символьная сслка для свтостарта приложения и регистрация в автозагрузке:
+sudo ln -s /var/www/district_desc/core/scripts/district_desc.sh /etc/init.d/district_lesnoy
+sudo update-rc.d district_lesnoy defaults
+
+# Стартуем приложение, устанавливая если надо необходимые модули:
+$  sudo su -s /bin/bash district_desc
+$  ./district_desc.sh start
+# libfcgi-procmanager-maxrequests-perl - нет в репозитоиии wheezy, поэтому его можно взять из testing
+
+# nginx 
+$ exit
+$ sudo cp -v ../install/district_desc.nginx.conf /etc/nginx/sites-available/
+
+# редактируем наименование сервера, под которым будет работать приложение: district.ani-project.org
+$ sudo vi /etc/nginx/sites-available/district_desc.nginx.conf
+$ sudo ln -s /etc/nginx/sites-available/district_desc.nginx.conf /etc/nginx/sites-enabled/district_desc.nginx.conf
+$ sudo sudo /etc/init.d/nginx restart
+
+
+# добавляем запись в bind. Готово.
+
