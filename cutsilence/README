@@ -1,0 +1,18 @@
+Принцип работы:
+
+1. Находим на видео участки с тишиной:
+
+ffmpeg -i VID_20230718_181942.mp4 -af silencedetect=n=-20dB:d=1 out.mp3
+
+2. Удаляем найденные участки второй командой ffmpeg:
+
+ffmpeg -i VID_20230718_181942.mp4 -vf "select='between(t,2.3,11.6)', setpts=N/FRAME_RATE/TB" -af "aselect='between(t,2.3,11.6)', asetpts=N/SR/TB" out.mp4
+
+С помощью утилиты ./cutsilence.pl это объединено в один скрипт:
+$ ./cutsilence.pl post3/VID_20231016_002039.mp4 
+
+В директории post3/ появятся файлы 
+    VID_20231016_002039_wos.mp3 - звуковая дорожка из видео
+    VID_20231016_002039_wos.mp4 - результирующий ролик с вырезанной тишиной
+
+Необходим установленные: Perl и FFmpeg
